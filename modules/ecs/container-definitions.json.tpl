@@ -4,12 +4,21 @@
     "essential": true,
     "image": "${app_image}",
     "memory": ${fargate_memory},
-    "name": "tranque-api",
+    "name": "antoneo-api",
     "portMappings": [
       {
-        "containerPort": ${app_port},
-        "hostPort": ${app_port}
+        "containerPort": ${container_port},
+        "hostPort": ${container_port}
       }
-    ]
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-create-group": "true",
+            "awslogs-group": "${prefix}-awslogs-api",
+            "awslogs-region": "${aws_region}",
+            "awslogs-stream-prefix": "awslogs-api"
+        }
+    }
   }
 ]

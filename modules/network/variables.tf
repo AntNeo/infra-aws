@@ -21,3 +21,14 @@ variable "public_subnets" {
   type        = list(string)
   default     = []
 }
+
+variable "private_subnets" {
+  description = "A list of public subnets inside the VPC"
+  type        = list(string)
+  default     = []
+}
+
+variable "tags" {
+  description = "A list of public subnets inside the VPC"
+  type        = map(string)
+}

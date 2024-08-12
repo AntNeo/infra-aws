@@ -22,12 +22,12 @@ variable "fargate_memory" {
   default = "2048"
 }
 
-variable "ecs_task_execution_role" {
-  default = "arn:aws:iam::719699785587:role/ecsTaskExecutionRole"
+variable "ecs_task_execution_role_name" {
+  default = "ecsTaskExecutionRole"
 }
 
-variable "ecs_autoscale_role" {
-  default = "arn:aws:iam::719699785587:role/ecsAutoscaleRole"
+variable "ecs_autoscale_role_name" {
+  default = "aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
 }
 
 variable "min_capacity" {
@@ -39,6 +39,10 @@ variable "max_capacity" {
 }
 
 variable "container_port" {
+  default = "8000"
+}
+
+variable "host_port" {
   default = "80"
 }
 
@@ -54,10 +58,24 @@ variable "app_image" {
   default = "k8s.gcr.io/hpa-example:latest"
 }
 
-variable "vpc_id" {
+variable "infra_vpc_id" {
   description = "infra vpc id"
+}
+
+variable "app_vpc_id" {
+  description = "application vpc id"
 }
 
 variable "vpc_private_subnets" {
   description = "infra vpc private subnets"
+}
+
+
+variable "alb_https_listener" {
+  description = "alb https listener arn"
+}
+
+
+variable "api_domain_name" {
+  description = "the domain that ecs gonna use"
 }

@@ -43,3 +43,19 @@ output "private_subnets" {
   description = "The id of infra vpc"
   value       = module.vpc.private_subnets
 }
+
+output "private_subnets_rts" {
+  value = module.vpc.private_route_table_ids
+}
+
+output "public_subnets_rt" {
+  value = module.vpc.public_route_table_ids
+}
+
+output "vpc_cidr" {
+  value = module.vpc.vpc_cidr_block
+}
+
+output "alb_egress_sg" {
+  value = module.alb.security_group_id
+}
