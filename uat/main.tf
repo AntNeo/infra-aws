@@ -13,7 +13,7 @@ locals {
 data "terraform_remote_state" "infra" {
   backend = "s3"
   config = {
-    bucket = "641593750485-terraform-states"
+    bucket = "975049907995-terraform-states"
     key    = "shared/alb.tfstate"
     region = var.region
   }

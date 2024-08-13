@@ -17,7 +17,7 @@ terraform {
    }
   backend "s3" {
     key = "shared/alb.tfstate" 
-    bucket = "641593750485-terraform-states"
+    bucket = "975049907995-terraform-states"
     region = "ap-southeast-2"
   }
 }
