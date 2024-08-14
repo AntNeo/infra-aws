@@ -23,28 +23,26 @@ module "cloudfront" {
   retain_on_delete    = false
   wait_for_deployment = false
 
-  create_origin_access_identity = true
-  origin_access_identities = {
-    s3_bucket_one = "My CloudFront can access"
-  }
+  default_root_object           = "index.html"
+  create_origin_access_identity = false
+  # origin_access_identities = {
+  #   s3_bucket_one = "My CloudFront can access-${}"
+  # }
 
   create_origin_access_control = true
-  # origin_access_control = {
-  #   s3_oac = {
-  #     description      = "CloudFront access to S3"
-  #     origin_type      = "s3"
-  #     signing_behavior = "always"
-  #     signing_protocol = "sigv4"
-  #   }
-  # }
+  origin_access_control = {
+    s3_oac = {
+      description      = "CloudFront access to S3"
+      origin_type      = "s3"
+      signing_behavior = "always"
+      signing_protocol = "sigv4"
+    }
+  }
 
   origin = {
     s3_one = { # with origin access identity (legacy)
-      domain_name = module.s3_bucket.s3_bucket_bucket_regional_domain_name
-      s3_origin_config = {
-        origin_access_identity = "s3_bucket_one" # key in `origin_access_identities`
-        # cloudfront_access_identity_path = "origin-access-identity/cloudfront/E5IGQAA1QO48Z" # external OAI resource
-      }
+      domain_name           = module.s3_bucket.s3_bucket_bucket_regional_domain_name
+      origin_access_control = "s3_oac" # key in `origin_access_control`
     }
   }
 

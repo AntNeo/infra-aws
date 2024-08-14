@@ -70,4 +70,7 @@ echo "Secret: $SECRET"
 echo $SECRET | tr -d '\n' >jenkins-agent-secret.txt
 
 # run agent
-sudo docker run -d --name jenkins-agent --restart=always --init jenkins/inbound-agent -url ${jenkins_url} -workDir=/home/jenkins/agent -secret $SECRET -name ${agent_name}
+
+sudo docker run -d --name jenkins-agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock \
+                -v /usr/bin/docker:/usr/bin/docker --user root \ 
+                --init jenkins/inbound-agent -url ${jenkins_url} -workDir=/home/jenkins/agent -secret $SECRET -name ${agent_name}

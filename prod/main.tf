@@ -116,3 +116,46 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ecs" {
   ip_protocol       = "-1" # semantically equivalent to all ports
   tags              = local.tags
 }
+
+
+################
+# s3 bucket access
+################
+resource "aws_iam_user" "jenkins_user" {
+  name = "jenkins-user-prod"
+}
+
+resource "aws_iam_access_key" "jenkins_access_key" {
+  user = aws_iam_user.jenkins_user.name
+}
+
+# Optional: Attach a policy to this user
+resource "aws_iam_user_policy" "jenkins_user_policy" {
+  name = "jenkins-s3-policy-prod"
+  user = aws_iam_user.jenkins_user.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "s3:ListAllMyBuckets"
+        ],
+        "Effect": "Allow",
+        "Resource": "arn:aws:s3:::*"
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+        ]
+        Effect = "Allow"
+        Resource = [
+          "${module.prod-frontend.bucket_arn}",
+          "${module.prod-frontend.bucket_arn}/*"
+        ]
+      }
+    ]
+  })
+}

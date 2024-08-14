@@ -37,35 +37,43 @@ module "s3_bucket" {
   }]
 }
 
+# data "aws_iam_policy_document" "s3_policy" {
+#   # Origin Access Identities
+#   statement {
+#     actions   = ["s3:GetObject"]
+#     resources = ["${module.s3_bucket.s3_bucket_arn}/*"]
+
+#     principals {
+#       type        = "AWS"
+#       identifiers = module.cloudfront.cloudfront_distribution_arn
+#     }
+#   }
+
+# }
+
 data "aws_iam_policy_document" "s3_policy" {
-  # Origin Access Identities
-  # statement {
-  #   actions   = ["s3:GetObject"]
-  #   resources = ["${module.s3_bucket.s3_bucket_arn}/static/*"]
-
-  #   principals {
-  #     type        = "AWS"
-  #     identifiers = module.cloudfront.cloudfront_origin_access_identity_iam_arns
-  #   }
-  # }
-
-  # Origin Access Controls
   statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${module.s3_bucket.s3_bucket_arn}/static/*"]
+    sid    = "AllowCloudFrontServicePrincipal"
+    effect = "Allow"
 
     principals {
       type        = "Service"
       identifiers = ["cloudfront.amazonaws.com"]
     }
 
+    actions = ["s3:GetObject"]
+
+    resources = ["${module.s3_bucket.s3_bucket_arn}/*"]
+
     condition {
       test     = "StringEquals"
-      variable = "aws:SourceArn"
-      values   = [module.cloudfront.cloudfront_distribution_arn]
+      variable = "AWS:SourceArn"
+      values   = ["${module.cloudfront.cloudfront_distribution_arn}"]
     }
   }
 }
+
+
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = module.s3_bucket.s3_bucket_id
