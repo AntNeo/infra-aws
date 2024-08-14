@@ -24,11 +24,6 @@ module "s3_bucket" {
     enabled = true
   }
 
-  website = {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
-
   grant = [{
     type       = "CanonicalUser"
     permission = "FULL_CONTROL"
