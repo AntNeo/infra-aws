@@ -40,7 +40,7 @@ module "cloudfront" {
 
   origin = {
     s3_one = { # with origin access identity (legacy)
-      domain_name = module.s3_bucket.s3_bucket_bucket_regional_domain_name
+      domain_name = module.s3_bucket.s3_bucket_website_domain
       s3_origin_config = {
         origin_access_identity = "s3_bucket_one" # key in `origin_access_identities`
         # cloudfront_access_identity_path = "origin-access-identity/cloudfront/E5IGQAA1QO48Z" # external OAI resource
