@@ -30,15 +30,19 @@ To create Jenkins, change directory to `shared/foundation/` and run:
 terraform init # only for the first time you run terraform for this resource
 terraform apply
 ```
-Jenkins login credentials are as follow:
-```
+Jenkins login user is as follow:
+```bash
 username: antoneo
-password: an2mW_x0mcE9E7lL
+```
+password can be retrieved by issuing command under directory `shared/foundation/jenkins`:
+```bash
+terraform output -raw jenkins_admin_password
 ```
 
-## Create UAT Resources
-To create UAT dedicated resources, change directory to `uat` and run:
+## Create Prod Resources
+To create `prod` dedicated resources, change directory to `prod` and run:
 ```bash
 terraform init # only for the first time you run terraform for this resource
+terraform apply -target=prodvpc
 terraform apply
 ```
