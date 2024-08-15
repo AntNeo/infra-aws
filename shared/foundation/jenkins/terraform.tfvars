@@ -1,6 +1,6 @@
 region               = "ap-southeast-2"
 key_name             = "neotest"
-route53_zone_id      = "Z0375597354Y33ZRTG53I" # refer to ezpzosneo.xyz
+route53_zone_id      = "Z00773283D6XLFBPNW7SO" # refer to ezpzos.com
 route53_record_name  = "jenkins"
 agent_instance_count = 2
 agent_instance_type  = "c5.xlarge"
