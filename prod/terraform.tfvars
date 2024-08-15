@@ -3,5 +3,5 @@ public_cidrs    = ["10.2.0.0/24"]
 vpc_cidr        = "10.2.0.0/16"
 bucket_name     = "prd-neo-s3"
 domain_name     = "ezpzos.com"
-sub_domain      = "static"
+sub_domain      = "web"
 ecs_name_prefix = "prod-antoneo"
