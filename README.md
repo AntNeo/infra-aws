@@ -1,3 +1,9 @@
+## Set AWS Credentials
+Set environment variables before issuing terraform commands:
+```bash
+export export AWS_ACCESS_KEY_ID="<your_aws_access_key_id>"
+export AWS_SECRET_ACCESS_KEY="<your_aws_secret_access_key>"
+```
 ## Create S3(Already Done)
 You can skip this step as it should only be performed once.
 
