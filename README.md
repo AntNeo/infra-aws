@@ -46,6 +46,14 @@ password can be retrieved by issuing command under directory `shared/foundation/
 terraform output -raw jenkins_admin_password
 ```
 
+## Create UAT Resources
+To create `uat` dedicated resources, change directory to `uat` and run:
+```bash
+terraform init # only for the first time you run terraform for this resource
+terraform apply -target=uatvpc
+terraform apply
+```
+
 ## Create Prod Resources
 To create `prod` dedicated resources, change directory to `prod` and run:
 ```bash
