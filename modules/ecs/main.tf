@@ -80,9 +80,14 @@ resource "aws_lb_target_group" "alb_target_group" {
   }
 }
 
+resource "random_pet" "unique_suffix" {
+  length    = 2
+  separator = ""
+}
+
 resource "aws_lb_listener_rule" "ecs_forward" {
   listener_arn = var.alb_https_listener
-  priority     = 110
+  priority     = 110 + length(random_pet.unique_suffix.id)
 
   action {
     type             = "forward"

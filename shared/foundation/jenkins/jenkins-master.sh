@@ -25,7 +25,7 @@ sudo docker exec jenkins curl -s http://localhost:8080/jnlpJars/jenkins-cli.jar 
 sudo docker exec -i jenkins sh -c "echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount(\"${jenkins_admin}\", \"${jenkins_password}\")' | java -jar /var/jenkins_home/jenkins-cli.jar -auth admin:$INITIAL_PASSWORD -s http://localhost:8080/ groovy ="
 
 # install instance-identity plugins for agent register
-sudo docker exec -i jenkins sh -c "jenkins-plugin-cli --plugins instance-identity"
+sudo docker exec -i jenkins sh -c "jenkins-plugin-cli --plugins instance-identity aws-credentials docker-plugin"
 
 # restart jenkins for plugin reload
 sudo docker restart jenkins

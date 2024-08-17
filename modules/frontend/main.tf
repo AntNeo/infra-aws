@@ -31,7 +31,7 @@ module "cloudfront" {
 
   create_origin_access_control = true
   origin_access_control = {
-    s3_oac = {
+    "s3_oac-${random_pet.this.id}" = {
       description      = "CloudFront access to S3"
       origin_type      = "s3"
       signing_behavior = "always"
@@ -42,7 +42,7 @@ module "cloudfront" {
   origin = {
     s3_one = { # with origin access identity (legacy)
       domain_name           = module.s3_bucket.s3_bucket_bucket_regional_domain_name
-      origin_access_control = "s3_oac" # key in `origin_access_control`
+      origin_access_control = "s3_oac-${random_pet.this.id}" # key in `origin_access_control`
     }
   }
 

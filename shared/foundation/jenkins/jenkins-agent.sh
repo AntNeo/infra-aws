@@ -8,7 +8,11 @@ sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
 
 # wait for master up
-sleep 30
+sleep 120
+until curl -s -f ${jenkins_url}/whoAmI/api/json; do
+  echo waiting for jenkins-up
+  sleep 5
+done
 
 # Node create
 CURL_CREDENTIALS="${username}:${password}"
@@ -21,7 +25,7 @@ CRUMB=$(echo "$CRUMB_JSON" | jq --raw-output '.crumb')
 CRUMB_HEADER="$CRUMB_FIELD:$CRUMB"
 
 NODE_REQUEST_JSON=$(
-    cat <<EOF
+  cat <<EOF
 {
   "name": "${agent_name}",
   "nodeDescription": "agent create automatically",
@@ -55,12 +59,12 @@ NODE_CREATE_URL="${jenkins_url}/computer/doCreateItem?name=${agent_name}&type=hu
 RESPONSE_STATUS=$(curl -L -s -o /dev/null -w "%%{http_code}" -u "$CURL_CREDENTIALS" --cookie "$COOKIEJAR" -H "Content-Type:application/x-www-form-urlencoded" -H "$CRUMB_HEADER" -X POST -d "json=$NODE_REQUEST_JSON" $NODE_CREATE_URL)
 
 if [[ $RESPONSE_STATUS == "200" ]]; then
-    echo "SUCCESS"
+  echo "SUCCESS"
 elif [[ $RESPONSE_STATUS == "400" ]]; then
-    echo "Response status: [400], continuing"
+  echo "Response status: [400], continuing"
 else
-    echo "ERROR: Failed to create node. Response code: [$RESPONSE_STATUS]"
-    exit 1
+  echo "ERROR: Failed to create node. Response code: [$RESPONSE_STATUS]"
+  exit 1
 fi
 
 AGENT_JNLP_URL="${jenkins_url}/computer/${agent_name}/slave-agent.jnlp"
@@ -72,5 +76,4 @@ echo $SECRET | tr -d '\n' >jenkins-agent-secret.txt
 # run agent
 
 sudo docker run -d --name jenkins-agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock \
-                -v /usr/bin/docker:/usr/bin/docker --user root \ 
-                --init jenkins/inbound-agent -url ${jenkins_url} -workDir=/home/jenkins/agent -secret $SECRET -name ${agent_name}
+  -v /usr/bin/docker:/usr/bin/docker --user root --init jenkins/inbound-agent -url ${jenkins_url} -workDir=/home/jenkins/agent -secret $SECRET -name ${agent_name}
