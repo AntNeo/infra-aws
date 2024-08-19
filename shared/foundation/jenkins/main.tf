@@ -36,7 +36,6 @@ resource "random_password" "jenkins_admin_password" {
 }
 
 resource "aws_security_group" "jenkins_sg" {
-  name = "sg-ec2"
   vpc_id = data.terraform_remote_state.infra.outputs.vpc_id
 
   ingress {
