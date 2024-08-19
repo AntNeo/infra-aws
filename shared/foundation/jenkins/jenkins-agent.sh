@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+set -e
 sudo apt-get update
 sudo apt-get install -y docker.io xmlstarlet jq
 sudo systemctl start docker
