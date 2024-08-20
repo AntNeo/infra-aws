@@ -21,7 +21,7 @@ INITIAL_PASSWORD=$(sudo docker exec jenkins cat /var/jenkins_home/secrets/initia
 echo $INITIAL_PASSWORD
 
 # download jenkins-cli.jar
-sudo docker exec jenkins curl -s http://localhost:8080/jnlpJars/jenkins-cli.jar -o /var/jenkins_home/jenkins-cli.jar
+sudo docker exec jenkins curl -s http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar -o /var/jenkins_home/jenkins-cli.jar
 if [ $? -ne 0 ]; then
     echo "Failed to download jenkins-cli.jar"
     exit 1
