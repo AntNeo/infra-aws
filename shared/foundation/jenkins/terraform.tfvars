@@ -4,6 +4,6 @@ route53_zone_id      = "Z00773283D6XLFBPNW7SO" # refer to ezpzos.com
 route53_record_name  = "jenkins"
 agent_instance_count = 1
 agent_instance_type  = "t2.medium"
-instance_type        = "t2.micro"
+instance_type        = "t2.medium"
 jenkins_user         = "antoneo"
 secret_subffix       = 0
