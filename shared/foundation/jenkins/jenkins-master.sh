@@ -18,10 +18,10 @@ sleep 30
 
 # Output Jenkins initial admin password
 INITIAL_PASSWORD=$(sudo docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword)
-echo $INITIAL_PASSWORD
+echo ${INITIAL_PASSWORD}
 
 # download jenkins-cli.jar
-sudo docker exec jenkins curl -s http://localhost:8080/jnlpJars/jenkins-cli.jar -o /var/jenkins_home/jenkins-cli.jar
+sudo docker exec jenkins curl -u admin:${INITIAL_PASSWORD} -s http://localhost:8080/jnlpJars/jenkins-cli.jar -o /var/jenkins_home/jenkins-cli.jar
 if [ $? -ne 0 ]; then
     echo "Failed to download jenkins-cli.jar"
     exit 1
