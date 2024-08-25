@@ -28,6 +28,14 @@ data "aws_ami" "ubuntu" {
   }
 }
 
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.5.20240819.0-kernel-6.1-x86_64"]
+  }
+}
 # Create admin password
 resource "random_password" "jenkins_admin_password" {
   length           = 16
@@ -70,7 +78,7 @@ resource "aws_security_group" "jenkins_sg" {
 }
 
 resource "aws_instance" "jenkins_master" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ami.amazon_linux.id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.generated_key.key_name
   subnet_id              = data.terraform_remote_state.infra.outputs.private_subnets[0]
