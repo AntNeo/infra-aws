@@ -11,3 +11,7 @@ output "jenkins_aws_secret_access_key" {
   value     = aws_iam_access_key.jenkins_access_key.secret
   sensitive = true
 }
+
+output "db_group" {
+  value = module.uatvpc.database_subnet_group
+}

@@ -17,11 +17,14 @@ module "vpc" {
 
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
+  database_subnets = var.database_subnets
 
   # single nat gageway
   enable_nat_gateway     = true
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
+
+  create_database_subnet_group  = var.create_database_group
 
   tags = merge(local.common_tags, var.tags)
 

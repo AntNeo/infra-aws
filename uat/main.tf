@@ -32,9 +32,10 @@ module "uatvpc" {
     env = "uat"
   }
 
-  cidr            = var.vpc_cidr
-  private_subnets = var.private_cidrs
-  public_subnets  = var.public_cidrs
+  cidr             = var.vpc_cidr
+  private_subnets  = var.private_cidrs
+  public_subnets   = var.public_cidrs
+  database_subnets = var.database_cidrs
 
 }
 
@@ -47,8 +48,9 @@ module "ecs" {
   infra_vpc_id        = data.terraform_remote_state.infra.outputs.vpc_id
   aws_region          = var.region
   alb_https_listener  = data.terraform_remote_state.infra.outputs.alb_listener.https.arn
-  app_image           = "crccheck/hello-world:latest"
+  app_image           = var.app_image
   api_domain_name     = var.api_domain_name
+  s3_arn              = module.uat-frontend.bucket_arn
 }
 
 ####################
@@ -160,4 +162,14 @@ resource "aws_iam_user_policy" "jenkins_user_policy" {
       }
     ]
   })
+}
+
+################
+# RDS
+################
+module "uatrds" {
+  source = "../modules/database"
+
+  vpc_id               = module.uatvpc.vpc_id
+  db_subnet_group_name = module.uatvpc.database_subnet_group
 }

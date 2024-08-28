@@ -32,3 +32,14 @@ variable "tags" {
   description = "A list of public subnets inside the VPC"
   type        = map(string)
 }
+
+variable "database_subnets" {
+  description = "A list of public subnets inside the VPC"
+  type        = list(string)
+  default     = []
+}
+
+variable "create_database_group" {
+  type = bool
+  default = true
+}

@@ -79,3 +79,8 @@ variable "alb_https_listener" {
 variable "api_domain_name" {
   description = "the domain that ecs gonna use"
 }
+
+variable "s3_arn" {
+  type = string
+  description = "s3 arn you wanna to put env file in"
+}

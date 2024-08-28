@@ -19,6 +19,12 @@
             "awslogs-region": "${aws_region}",
             "awslogs-stream-prefix": "awslogs-api"
         }
-    }
+    },
+    "environmentFiles": [
+        {
+            "value": "${s3_bucket}/myenv.env",
+            "type": "s3"
+        }
+    ]
   }
 ]

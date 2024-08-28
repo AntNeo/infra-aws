@@ -10,13 +10,14 @@ data "aws_caller_identity" "current" {}
 
 # 动态构建 ARN
 locals {
-  ecs_task_execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.ecs_task_execution_role_name}"
-  ecs_autoscale_role_arn      = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.ecs_autoscale_role_name}"
+  # ecs_task_execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.ecs_task_execution_role_name}"
+  ecs_autoscale_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.ecs_autoscale_role_name}"
 }
 
 resource "aws_ecs_task_definition" "ecs_task" {
   family                   = "${var.name_prefix}-task"
-  execution_role_arn       = local.ecs_task_execution_role_arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -28,6 +29,7 @@ resource "aws_ecs_task_definition" "ecs_task" {
     aws_region     = var.aws_region
     container_port = var.container_port
     prefix         = var.name_prefix
+    s3_bucket      = var.s3_arn
     # host_port      = var.host_port
   })
 
@@ -45,6 +47,8 @@ resource "aws_ecs_service" "ecs_service" {
   task_definition = aws_ecs_task_definition.ecs_task.arn
   desired_count   = var.min_capacity
   launch_type     = "FARGATE"
+
+  enable_execute_command = true
 
   network_configuration {
     security_groups  = ["${aws_security_group.ecs_tasks_sg.id}"]

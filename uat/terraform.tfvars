@@ -1,7 +1,9 @@
 private_cidrs   = ["10.1.1.0/24", "10.1.2.0/24"]
 public_cidrs    = ["10.1.0.0/24"]
+database_cidrs  = ["10.1.3.0/24", "10.1.4.0/24"]
 vpc_cidr        = "10.1.0.0/16"
 bucket_name     = "uat-neo-s3"
 domain_name     = "ezpzos.com"
 sub_domain      = "web-uat"
 api_domain_name = "api-uat"
+app_image       = "975049907995.dkr.ecr.ap-southeast-2.amazonaws.com/ecr-antonio-demo:6"

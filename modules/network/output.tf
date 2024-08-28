@@ -20,3 +20,8 @@ output "private_subnets_rts" {
 output "public_subnets_rt" {
   value = module.vpc.public_route_table_ids
 }
+
+output "database_subnet_group" {
+  description = "ID of database subnet group"
+  value       = module.vpc.database_subnet_group
+}
