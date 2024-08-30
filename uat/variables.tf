@@ -53,7 +53,7 @@ variable "sub_domain" {
 
 variable "ecs_name_prefix" {
   type    = string
-  default = "uat-antoneo"
+  default = "antoneo"
 }
 
 variable "api_domain_name" {
