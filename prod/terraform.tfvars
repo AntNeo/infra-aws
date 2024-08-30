@@ -1,7 +1,9 @@
 private_cidrs   = ["10.2.1.0/24", "10.2.2.0/24"]
 public_cidrs    = ["10.2.0.0/24"]
+database_cidrs  = ["10.2.3.0/24", "10.2.4.0/24"]
 vpc_cidr        = "10.2.0.0/16"
 bucket_name     = "prd-neo-s3"
 domain_name     = "ezpzos.com"
 sub_domain      = "web"
 ecs_name_prefix = "prod-antoneo"
+app_image       = "975049907995.dkr.ecr.ap-southeast-2.amazonaws.com/ecr-antonio-demo:6"

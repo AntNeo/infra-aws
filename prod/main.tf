@@ -31,9 +31,10 @@ module "prodvpc" {
     env = "prod"
   }
 
-  cidr            = var.vpc_cidr
-  private_subnets = var.private_cidrs
-  public_subnets  = var.public_cidrs
+  cidr             = var.vpc_cidr
+  private_subnets  = var.private_cidrs
+  public_subnets   = var.public_cidrs
+  database_subnets = var.database_cidrs
 
 }
 
@@ -46,10 +47,10 @@ module "ecs" {
   infra_vpc_id        = data.terraform_remote_state.infra.outputs.vpc_id
   aws_region          = var.region
   alb_https_listener  = data.terraform_remote_state.infra.outputs.alb_listener.https.arn
-  app_image           = "crccheck/hello-world:latest"
+  app_image           = var.app_image
   api_domain_name     = var.api_domain_name
+  s3_arn              = module.prod-frontend.bucket_arn
 }
-
 ####################
 # Frontend
 ####################
@@ -141,8 +142,8 @@ resource "aws_iam_user_policy" "jenkins_user_policy" {
         Action = [
           "s3:ListAllMyBuckets"
         ],
-        "Effect": "Allow",
-        "Resource": "arn:aws:s3:::*"
+        "Effect" : "Allow",
+        "Resource" : "arn:aws:s3:::*"
       },
       {
         Action = [
@@ -159,4 +160,14 @@ resource "aws_iam_user_policy" "jenkins_user_policy" {
       }
     ]
   })
+}
+
+################
+# RDS
+################
+module "prodrds" {
+  source = "../modules/database"
+
+  vpc_id               = module.prodvpc.vpc_id
+  db_subnet_group_name = module.prodvpc.database_subnet_group
 }

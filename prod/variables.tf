@@ -55,3 +55,13 @@ variable "api_domain_name" {
   type    = string
   default = "api"
 }
+
+variable "app_image" {
+  description = "docker image you wanna use in ecs"
+  type = string
+}
+
+variable "database_cidrs" {
+  type    = list(string)
+  default = ["10.1.3.0/24"]
+}

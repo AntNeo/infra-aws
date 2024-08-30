@@ -17,7 +17,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_iam_policy" "ecr_policy" {
-  name        = "ECRReadAccess"
+  name        = "${var.name_prefix}_ECRReadAccess"
   description = "Allows pulling images from ECR"
 
   policy = jsonencode({
@@ -38,7 +38,7 @@ resource "aws_iam_policy" "ecr_policy" {
 }
 
 resource "aws_iam_policy" "s3_policy" {
-  name        = "S3ReadAccess"
+  name        = "${var.name_prefix}_S3ReadAccess"
   description = "Allows reading files from S3"
 
   policy = jsonencode({
