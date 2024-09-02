@@ -32,11 +32,11 @@ resource "aws_ecs_task_definition" "ecs_task" {
     s3_bucket      = var.s3_arn
     # host_port      = var.host_port
   })
-  # lifecycle {
-  #   ignore_changes = [
-  #     container_definitions
-  #   ]
-  # }
+  lifecycle {
+    ignore_changes = [
+      container_definitions
+    ]
+  }
 }
 
 resource "aws_cloudwatch_log_group" "container" {
