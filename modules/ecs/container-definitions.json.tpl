@@ -22,7 +22,7 @@
     },
     "environmentFiles": [
         {
-            "value": "${s3_bucket}/myenv.env",
+            "value": "${s3_bucket}/env/.env",
             "type": "s3"
         }
     ]
